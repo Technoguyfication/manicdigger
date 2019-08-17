@@ -1065,6 +1065,7 @@ namespace ManicDigger.Mods
 			               	WalkableType = WalkableType.Empty,
 			               	Sounds = solidSounds
 			               });
+
 			#endregion
 
 			#region Creative inventory

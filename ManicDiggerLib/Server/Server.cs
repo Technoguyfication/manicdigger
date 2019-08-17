@@ -1178,7 +1178,7 @@ public partial class Server : ICurrentTime, IDropItem
         switch (packet.Id)
         {
             case Packet_ClientIdEnum.PingReply:
-        		clients[clientid].Ping.Receive((int)serverUptime.ElapsedMilliseconds);
+                clients[clientid].Ping.Receive((int)serverUptime.ElapsedMilliseconds);
                 clients[clientid].LastPing = ((float)clients[clientid].Ping.RoundtripTimeTotalMilliseconds() / 1000);
                 this.NotifyPing(clientid, (int)clients[clientid].Ping.RoundtripTimeTotalMilliseconds());
                 break;
@@ -2807,9 +2807,9 @@ public partial class Server : ICurrentTime, IDropItem
     }
     private void SendSetBlock(int clientid, int x, int y, int z, int blocktype)
     {
-    	if (!ClientSeenChunk(clientid, (int)(x / chunksize), (int)(y / chunksize), (int)(z / chunksize)))
+        if (!ClientSeenChunk(clientid, (int)(x / chunksize), (int)(y / chunksize), (int)(z / chunksize)))
         {
-    		// don't send block updates for chunks a player can not see
+            // don't send block updates for chunks a player can not see
             return;
         }
         Packet_ServerSetBlock p = new Packet_ServerSetBlock() { X = x, Y = y, Z = z, BlockType = blocktype };
@@ -4236,79 +4236,79 @@ public struct Vector3i
 }
 public struct Vector3f
 {
-	public float X;
-	public float Y;
-	public float Z;
+    public float X;
+    public float Y;
+    public float Z;
 
-	public Vector3f(float x, float y, float z)
-	{
-		this.X = x;
-		this.Y = y;
-		this.Z = z;
-	}
+    public Vector3f(float x, float y, float z)
+    {
+        this.X = x;
+        this.Y = y;
+        this.Z = z;
+    }
 
-	public Vector3f Add(Vector3f v)
-	{
-		return Add(v.X, v.Y, v.Z);
-	}
+    public Vector3f Add(Vector3f v)
+    {
+        return Add(v.X, v.Y, v.Z);
+    }
 
-	public Vector3f Add(float x, float y, float z)
-	{
-		return new Vector3f(this.X + x, this.Y + y, this.Z + z);
-	}
+    public Vector3f Add(float x, float y, float z)
+    {
+        return new Vector3f(this.X + x, this.Y + y, this.Z + z);
+    }
 
-	public override bool Equals(object obj)
-	{
-		if (obj is Vector3f)
-		{
-			Vector3f other = (Vector3f)obj;
-			return this.X == other.X && this.Y == other.Y && this.Z == other.Z;
-		}
-		return base.Equals(obj);
-	}
-	public void Normalize()
-	{
-		float len = (float)Math.Sqrt(X * X + Y * Y + Z * Z);
-		if (len <= 0) { return; }
-		X /= len;
-		Y /= len;
-		Z /= len;
-	}
-	public static bool operator ==(Vector3f a, Vector3f b)
-	{
-		return a.X == b.X && a.Y == b.Y && a.Z == b.Z;
-	}
-	public static bool operator !=(Vector3f a, Vector3f b)
-	{
-		return !(a.X == b.X && a.Y == b.Y && a.Z == b.Z);
-	}
-	public override int GetHashCode()
-	{
-		int hash = 23;
-		unchecked
-		{
-			hash = hash * 37 + X.GetHashCode();
-			hash = hash * 37 + Y.GetHashCode();
-			hash = hash * 37 + Z.GetHashCode();
-		}
-		return hash;
-	}
-	public static Vector3f operator +(Vector3f a, Vector3f b)
-	{
-		return new Vector3f(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
-	}
-	public static Vector3f operator -(Vector3f a, Vector3f b)
-	{
-		return new Vector3f(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
-	}
-	public static Vector3f operator *(Vector3f a, float b)
-	{
-		return new Vector3f(a.X * b, a.Y * b, a.Z * b);
-	}
-	public override string ToString()
-	{
-		return string.Format("[{0}, {1}, {2}]", X, Y, Z);
-	}
+    public override bool Equals(object obj)
+    {
+        if (obj is Vector3f)
+        {
+            Vector3f other = (Vector3f)obj;
+            return this.X == other.X && this.Y == other.Y && this.Z == other.Z;
+        }
+        return base.Equals(obj);
+    }
+    public void Normalize()
+    {
+        float len = (float)Math.Sqrt(X * X + Y * Y + Z * Z);
+        if (len <= 0) { return; }
+        X /= len;
+        Y /= len;
+        Z /= len;
+    }
+    public static bool operator ==(Vector3f a, Vector3f b)
+    {
+        return a.X == b.X && a.Y == b.Y && a.Z == b.Z;
+    }
+    public static bool operator !=(Vector3f a, Vector3f b)
+    {
+        return !(a.X == b.X && a.Y == b.Y && a.Z == b.Z);
+    }
+    public override int GetHashCode()
+    {
+        int hash = 23;
+        unchecked
+        {
+            hash = hash * 37 + X.GetHashCode();
+            hash = hash * 37 + Y.GetHashCode();
+            hash = hash * 37 + Z.GetHashCode();
+        }
+        return hash;
+    }
+    public static Vector3f operator +(Vector3f a, Vector3f b)
+    {
+        return new Vector3f(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
+    }
+    public static Vector3f operator -(Vector3f a, Vector3f b)
+    {
+        return new Vector3f(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
+    }
+    public static Vector3f operator *(Vector3f a, float b)
+    {
+        return new Vector3f(a.X * b, a.Y * b, a.Z * b);
+    }
+    public override string ToString()
+    {
+        return string.Format("[{0}, {1}, {2}]", X, Y, Z);
+    }
 }
 
 [ProtoContract()]

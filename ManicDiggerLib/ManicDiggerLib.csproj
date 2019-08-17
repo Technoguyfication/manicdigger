@@ -187,6 +187,7 @@
     <Compile Include="Common\XmlTool.cs" />
     <Compile Include="Server\ClientOnServer.cs" />
     <Compile Include="Server\GetFile.cs" />
+    <Compile Include="Client\Mods\TPScraper.cs" />
     <Compile Include="Server\Mods\Fortress\Default.cs" />
     <Compile Include="Server\Mods\Fortress\EntitySigns.cs" />
     <Compile Include="Server\Mods\Fortress\Food.cs" />
@@ -302,5 +303,9 @@ cmd /c "$(SolutionDir)BuildCito.bat" fast</PreBuildEvent>
   <PropertyGroup>
     <PreBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">cd '$(MSBuildProjectDirectory)/../'
 sh ./BuildCito.sh</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>cd $(SolutionDir)
+rem cmd /c "$(SolutionDir)\BuildCito.bat"</PreBuildEvent>
   </PropertyGroup>
 </Project>

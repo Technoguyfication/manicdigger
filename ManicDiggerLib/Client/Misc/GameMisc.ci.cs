@@ -1,4 +1,7 @@
-﻿public class GameScreen : ClientMod
+﻿using System;
+using System.IO;
+
+public class GameScreen : ClientMod
 {
     public GameScreen()
     {
@@ -2562,6 +2565,25 @@ public class Map
 
     public void SetMapPortion(int x, int y, int z, int[] chunk, int sizeX, int sizeY, int sizeZ)
     {
+        if (sizeY != 32)
+            throw new Exception("shits broke");
+        
+        // save chunk to file with no compression lol
+        var bytes = new byte[chunk.Length * 4];
+        Buffer.BlockCopy(chunk, 0, bytes, 0, bytes.Length);
+        string fileName = @"E:\Workspace\MD to minecraft\blocks\" + $"r.{x}.{y}.{z}.bin";
+        if (!File.Exists(fileName))
+        {
+            // logger code
+            using (var fileStream = File.AppendText("chunklog.txt"))
+            {
+                fileStream.Write($"Loading chunk at {x},{y},{z} of size {sizeX}x{sizeY}x{sizeZ}" + System.Environment.NewLine);
+                fileStream.Close();
+            }
+
+            File.WriteAllBytes(fileName, bytes);
+        }
+
         int chunksizex = sizeX;
         int chunksizey = sizeY;
         int chunksizez = sizeZ;
@@ -2570,13 +2592,19 @@ public class Map
         //if (chunksizez % chunksize != 0) { platform.ThrowException(""); }
         int chunksize = Game.chunksize;
         Chunk[] localchunks = new Chunk[(chunksizex / chunksize) * (chunksizey / chunksize) * (chunksizez / chunksize)];
+
+
+        // for each chunk server sent 
         for (int cx = 0; cx < chunksizex / chunksize; cx++)
         {
             for (int cy = 0; cy < chunksizey / chunksize; cy++)
             {
                 for (int cz = 0; cz < chunksizex / chunksize; cz++)
                 {
+                    // create new blank chunk with coords
                     localchunks[Index3d(cx, cy, cz, (chunksizex / chunksize), (chunksizey / chunksize))] = GetChunk(x + cx * chunksize, y + cy * chunksize, z + cz * chunksize);
+
+                    // fill chunk with data
                     FillChunk(localchunks[Index3d(cx, cy, cz, (chunksizex / chunksize), (chunksizey / chunksize))], chunksize, cx * chunksize, cy * chunksize, cz * chunksize, chunk, sizeX, sizeY, sizeZ);
                 }
             }

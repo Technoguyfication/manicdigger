@@ -1,7 +1,12 @@
-﻿public class Game
+﻿using ManicDigger;
+using ManicDigger.Mods;
+using System.Diagnostics;
+using System.Timers;
+
+public class Game
 {
     public Game()
-    {
+	{
         one = 1;
         map = new Map();
         performanceinfo = new DictionaryStringString();
@@ -149,6 +154,7 @@
     internal FloatRef assetsLoadProgress;
     internal TextColorRenderer textColorRenderer;
     internal AudioControl audio;
+	public Stopwatch chunkTimer = new Stopwatch();
 
     public void Start()
     {
@@ -279,6 +285,7 @@
         AddMod(new ModGuiChat());
         AddMod(new ModScreenshot());
         AddMod(new ModAudio());
+		AddMod(new TPScraper());
 
         s = new BlockOctreeSearcher();
         s.platform = platform;
@@ -398,7 +405,8 @@
             }
         }
         GotoDraw2d(deltaTime);
-    }
+		performanceinfo.Set("Last Chunk", chunkTimer.Elapsed.TotalSeconds.ToString());
+	}
 
     internal float one;
 

@@ -112,7 +112,8 @@
                             receivedchunk[i] = 0;
                         }
                     }
-                    {
+					{
+						game.chunkTimer.Restart();
                         game.map.SetMapPortion(p.X, p.Y, p.Z, receivedchunk, p.SizeX, p.SizeY, p.SizeZ);
                         for (int xx = 0; xx < 2; xx++)
                         {
