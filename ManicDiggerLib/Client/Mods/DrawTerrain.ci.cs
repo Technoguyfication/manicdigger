@@ -49,9 +49,9 @@
         if (game.shouldRedrawAllBlocks)
         {
             game.shouldRedrawAllBlocks = false;
-            RedrawAllBlocks();
+            //RedrawAllBlocks();
         }
-        DrawTerrain();
+        //DrawTerrain();
         UpdatePerformanceInfo(deltaTime);
     }
 
@@ -111,6 +111,8 @@
 
     public void UpdateTerrain()
     {
+		//return;	// todo hayden disable terrain drawing to save memory
+
         if (!terrainRendererStarted)
         {
             //Start() not called yet.
@@ -640,7 +642,9 @@ public class UnloadRendererChunksCommit : Action_
             c.rendered.dirty = true;
             c.rendered.light = null;
 
-            unloadChunkPos = -1;
+			// hayden: unload chunks from map when this happens
+			//game.map.RemoveChunk(unloadChunkPos);
+			unloadChunkPos = -1;
         }
     }
 }

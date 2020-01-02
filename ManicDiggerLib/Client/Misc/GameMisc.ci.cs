@@ -2404,6 +2404,15 @@ public class Map
         return chunk;
     }
 
+	public void RemoveChunk(int index3d)
+	{
+		if (chunks[index3d] != null)
+		{
+			chunks[index3d].data = null;
+			chunks[index3d] = null;
+		}
+	}
+
     public void SetBlockRaw(int x, int y, int z, int tileType)
     {
         Chunk chunk = GetChunk(x, y, z);
@@ -2567,11 +2576,16 @@ public class Map
     {
         if (sizeY != 32)
             throw new Exception("shits broke");
-        
+
         // save chunk to file with no compression lol
-        var bytes = new byte[chunk.Length * 4];
-        Buffer.BlockCopy(chunk, 0, bytes, 0, bytes.Length);
-        string fileName = @"E:\Workspace\MD to minecraft\blocks\" + $"r.{x}.{y}.{z}.bin";
+        var bytes = new byte[chunk.Length];
+
+		for (int i = 0; i < chunk.Length; i++)
+		{
+			bytes[i] = (byte)chunk[i];
+		}
+
+        string fileName = @"E:\Workspace\MD to minecraft\blocks\" + $"rb.{x}.{y}.{z}.bin";
         if (!File.Exists(fileName))
         {
             // logger code

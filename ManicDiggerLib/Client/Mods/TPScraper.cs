@@ -12,11 +12,29 @@ namespace ManicDigger.Mods
 	public class TPScraper : ClientMod
 	{
 		bool waitingForStep = false;
-		int x = 6600;
-		int y = 360;
+		int x;
+		int y;
+		bool initialPosNonce = false;
+
+		public override void Start(ClientModManager modmanager)
+		{
+			// load last position from log file
+			string lastPos = File.ReadLines("tpscraper.log").Where(s => s.StartsWith("tp: ")).Last();
+			string[] xy = lastPos.Substring(4).Split(',');
+			x = int.Parse(xy[0]);
+			y = int.Parse(xy[1]);
+
+			base.Start(modmanager);
+		}
 
 		public override void OnNewFrame(Game game, NewFrameEventArgs args)
 		{
+			if (initialPosNonce)
+			{
+				game.AddChatline($"{x}, {y}");
+				initialPosNonce = true;
+			}
+
 			if (game.chunkTimer.Elapsed.TotalSeconds > 4d)
 			{
 				if (!waitingForStep)
@@ -50,6 +68,8 @@ namespace ManicDigger.Mods
 				while (x < 9840)
 				{
 					game.SendChat($"/tp_pos {x} {y} 100");
+					game.map.Reset(game.map.MapSizeX, game.map.MapSizeY, game.map.MapSizeZ);	// unload all chunks
+					
 
 					File.AppendAllText("tpscraper.log", $"tp: {x},{y}" + Environment.NewLine);
 

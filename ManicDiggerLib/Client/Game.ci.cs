@@ -259,7 +259,7 @@ public class Game
         AddMod(new ModDrawLinesAroundSelectedBlock());
         AddMod(new ModDebugChunk());
         AddMod(new ModDrawArea());
-        AddMod(new ModDrawTerrain());
+        //AddMod(new ModDrawTerrain());
         AddMod(new ModDrawPlayers());
         AddMod(new ModDrawPlayerNames());
         AddMod(new ModDrawText());
